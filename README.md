@@ -1,4 +1,3 @@
-[index.html.html](https://github.com/user-attachments/files/29373932/index.html.html)
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -118,12 +117,31 @@
   .chip-tf  { background: #EEF2FF; color: var(--navy); border-color: #C7D2FE; }
   .chip-sol { background: #FFFBEB; color: #92400E; border-color: #FDE68A; }
 
-  .refs-toggle {
-    font-size: 10px; color: var(--blue2); cursor: pointer; text-decoration: underline;
-    text-underline-offset: 2px; user-select: none;
+  /* TOOLTIP */
+  .chip-tf-wrap { position: relative; display: inline-block; margin-bottom: 4px; }
+  .chip-tf-wrap .tooltip {
+    display: none;
+    position: absolute;
+    left: 0; top: calc(100% + 6px);
+    background: var(--navy);
+    color: var(--white);
+    font-size: 11px; line-height: 1.7;
+    padding: 10px 14px;
+    border-radius: 6px;
+    min-width: 280px; max-width: 360px;
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(0,0,0,.18);
+    pointer-events: none;
   }
+  .chip-tf-wrap .tooltip ul { list-style: none; padding: 0; margin: 0; }
+  .chip-tf-wrap .tooltip li { padding-left: 12px; position: relative; }
+  .chip-tf-wrap .tooltip li::before { content: "·"; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+  .chip-tf-wrap:hover .tooltip { display: block; }
+  .chip-tf-wrap .chip-tf { cursor: default; }
+  .chip-tf-wrap .has-refs .chip-tf { border-bottom: 1.5px dashed var(--blue2); cursor: help; }
+  /* refs-list used in member view */
   .refs-list {
-    display: none; background: var(--off); border-radius: 4px; padding: 8px 10px;
+    background: var(--off); border-radius: 4px; padding: 8px 10px;
     font-size: 11px; color: var(--muted); line-height: 1.8;
   }
   .refs-list li { list-style: none; padding-left: 10px; position: relative; }
@@ -374,14 +392,7 @@ function renderOpps() {
   }
 }
 
-function toggleRefs(id, oppId, member) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const isOpen = el.style.display === "block";
-  el.style.display = isOpen ? "none" : "block";
-  const btn = el.previousElementSibling;
-  if (btn) btn.textContent = isOpen ? "Voir références" : "Masquer références";
-}
+// tooltips handled via CSS hover
 
 // ── VIEW 2 : MEMBRES ─────────────────────────────────────────────────────────
 function renderMembers() {
